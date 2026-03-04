@@ -70,7 +70,7 @@ const server = http.createServer((req, res) =>{
    if (!category){
     res.statusCode = 404;
     res.setHeader("Content-type", "application/json");
-    res.end(JSON.stringify({message: "categoria no encontrada"}));
+    res.end(JSON.stringify({message: "categoría no encontrada"}));
     return;
    }
     res.statusCode = 200;
