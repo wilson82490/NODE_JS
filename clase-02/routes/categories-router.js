@@ -22,7 +22,7 @@ const categories = [
 //=======CATEGORIES========//
 
 router.get("/",(req,res)=>{
-    res.json(categories);
+  res.json(categories);
  });
 
 router.get("/:id", (req, res)=>{
@@ -30,7 +30,7 @@ router.get("/:id", (req, res)=>{
 const id = parseInt(req.params.id);
 
 if(isNaN(id)){
-    return res.status(400).json({error: "invalid category"})
+   return res.status(400).json({error: "invalid category"})
 }
 
 const category = categories.find((cat)=> cat.id == id);
@@ -43,8 +43,7 @@ const category = categories.find((cat)=> cat.id == id);
 
 
  router.post("/",(req, res)=>{
-
-  if(req.body.name == undefined || req.body.name == ""){
+ if(req.body.name == undefined || req.body.name == ""){
     return res.status(422).json({error: "name is required"})
   }
 
@@ -53,9 +52,7 @@ const category = categories.find((cat)=> cat.id == id);
     name: req.body.name,
     description: req.body.description,
   };
-
-
-  categories.push(newCategory);
+    categories.push(newCategory);
 
     res.status(201).json(newCategory);
  });
