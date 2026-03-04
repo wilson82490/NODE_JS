@@ -126,3 +126,25 @@ Devuelve la lista de categorias
 
 Devuelve una categoria  por id.
 
+##### Response 200
+
+
+```json
+{
+  "id": 1,
+  "name": "Laptop",
+  "price": 1200
+}
+```
+
+##### Response 404
+
+```json
+{
+  "error": "category not found"
+}
+```
+
+##### POST / categories
+
+Crea una nueva categoria
