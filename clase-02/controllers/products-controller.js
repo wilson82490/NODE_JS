@@ -91,3 +91,19 @@ if(!product){
 
   req.send("ok")
  }
+
+
+
+ export const deleteProduct = (req, res)=>{
+  const id = Number(req.params.id)
+  if(isNaN(id)){
+    return res.status(400).json({error: "invalid id"})
+}
+const productIndex = products.findIndex((p)=> p.id == id);
+if(productIndex === -1){
+    return res.status(404).json({error: "product not found"})
+}
+products.splice(productIndex, 1);
+res.status(204).send();
+res.json({message: "product deleted"})
+}

@@ -5,7 +5,8 @@ import {
   createCategory, 
   getCategories, 
   getCategoryById,
-  updateCategory } from "../controllers/categories-controllers.js";
+  updateCategory,
+  deleteCategory } from "../controllers/categories-controllers.js";
 
 const router = Router();
 
@@ -34,5 +35,7 @@ router.get("/:id", getCategoryById);
 router.post("/",createCategory);
 
 router.put("/:id", updateCategory);
+
+router.delete("/:id", deleteCategory);
 
  export default router;

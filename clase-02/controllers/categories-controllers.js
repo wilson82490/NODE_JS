@@ -57,19 +57,38 @@ export const updateCategory = (req, res)=>{
   if(isNaN(id)){
     return res.status(400).json({error: "invalid id"})
 }
-const category = categories.find((cat)=>{cat.id == id});
+const category = categories.find((cat)=> cat.id == id);
 if(!category){
     return res.status(404).json({error: "category not found"})
   }
 
-  console.log(product);
+  console.log(category);
   console.log(req.body);
 
 
-  const {name, description} = req.body
+const {name, description} = req.body;
 
-  category.name =name
+if(!name){
+    return res.status(422).json({error: "name is required"})
+  }
+  category.name = name;
   category.description = description;
 
-  req.json(category);
+  res.json(category);
  }
+
+
+ export const deleteCategory = (req, res) => {
+  const id = parseInt(req.params.id);
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "Invalid category ID" });
+  } 
+  const categoryIndex = categories.findIndex((c) => c.id === id);
+
+  if (categoryIndex === -1) {
+    return res.status(404).json({ error: "Category not found" });
+  }  
+  categories.splice(categoryIndex, 1);
+
+  res.status(204).send();
+}

@@ -8,7 +8,8 @@ import {
     createProduct, 
     getProductById, 
     getProducts, 
-    updateProduct} from "../controllers/products-controller.js";
+    updateProduct,
+    deleteProduct} from "../controllers/products-controller.js";
 
 const products =[
     {id: 1, name: "laptop", price: 1200, stock: 10},
@@ -21,5 +22,7 @@ const products =[
  router.get("/:id", getProductById );
 router.post("/", createProduct);
 router.put("/:id", updateProduct);
+router.delete("/:id", deleteProduct);
+
 
 export default router;
