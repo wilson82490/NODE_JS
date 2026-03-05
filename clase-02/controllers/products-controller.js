@@ -1,5 +1,7 @@
 
 
+import { validateStock, validatePrice } from "../utils/validate.js";
+
 const products =[
     {id: 1, name: "laptop", price: 1200, stock: 10},
     {id: 2, name: "mouse", price: 20, stock: 100},
@@ -26,18 +28,36 @@ const product = products.find((p)=> p.id == id);
 
 
  export const createProduct = (req, res)=>{
-console.log(req.body,req.body.stock,isNaN(req.body.stock));
 
-    if(req.body.stock == undefined || isNaN(req.body.stock) || req.body.stock < 0){
-          return res.status(422).json({error: "invalid stock"})
-        }
-  
-    
+//Validación del campo stock
+
+  console.log(validateStock(req.body.stock));
+
+    /* if(req.body.stock == undefined || 
+      isNaN(req.body.stock) || 
+      req.body.stock < 0
+    ){
+      return res.status(422).json({error: "invalid stock"})
+    } */
+
+  //if(validateStock(req.body.stock)== false)
+  if(!validateStock(req.body.stock)){
+    return res.status(422).json({error: "invalid stock"})
+  }
+
+
 
   // Validación del campo price
-  if (!req.body.price || req.body.price < 0) {
+
+  console.log(validatePrice(req.body.price));
+  
+  /* if (!req.body.price || req.body.price < 0) {
     return res.status(422).json({ error: "Invalid price" });
-  }
+  } */
+
+    if(!validatePrice(eq.body.price)){
+       return res.status(422).json({ error: "Invalid price" });
+    }
 
   const newProduct = {
     id: Date.now(),
