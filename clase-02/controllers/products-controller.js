@@ -71,3 +71,23 @@ const product = products.find((p)=> p.id == id);
 
     res.status(201).json(newProduct);
  }
+
+
+ export const updateProduct = (req, res)=>{
+  const id = Number(req.params.id)
+  if(isNaN(id)){
+    return res.status(400).json({error: "invalid id"})
+}
+const product = products.find((p)=>{p.id == id});
+if(!product){
+    return res.status(404).json({error: "product not found"})
+  }
+
+  console.log(product);
+  console.log(req.body);
+
+
+  const {name, price, stock} = req.body
+
+  req.send("ok")
+ }

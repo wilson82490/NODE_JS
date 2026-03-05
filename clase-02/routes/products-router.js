@@ -7,7 +7,8 @@ const router = Router();
 import { 
     createProduct, 
     getProductById, 
-    getProducts } from "../controllers/products-controller.js";
+    getProducts, 
+    updateProduct} from "../controllers/products-controller.js";
 
 const products =[
     {id: 1, name: "laptop", price: 1200, stock: 10},
@@ -17,11 +18,8 @@ const products =[
 //======PRODUCTS========//
 
  router.get("/", getProducts);
- 
  router.get("/:id", getProductById );
-
-
-router.post("/", createProduct)
-
+router.post("/", createProduct);
+router.put("/:id", updateProduct);
 
 export default router;
