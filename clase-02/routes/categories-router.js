@@ -11,31 +11,15 @@ import {
 const router = Router();
 
 
-const categories = [
-  {
-    id: 1,
-    name: "Electro",
-    description: "Lorem ipsum",
-  },
-  {
-    id: 2,
-    name: "Bazar",
-    description: "Lorem ipsum bazar",
-  },
-];
+
 
 
 //=======CATEGORIES========//
 
 router.get("/",getCategories);
-
 router.get("/:id", getCategoryById);
-
-
 router.post("/",createCategory);
-
 router.put("/:id", updateCategory);
-
 router.delete("/:id", deleteCategory);
 
  export default router;

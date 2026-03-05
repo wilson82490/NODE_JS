@@ -19,11 +19,11 @@ export const getCategories = (req,res)=>{
     res.json(categories);
  };
 
-    export const getCategoryById = (req, res)=>{
+export const getCategoryById = (req, res)=>{
 
-const id = parseInt(req.params.id);
+const id = Number(req.params.id);
 
-if(isNaN(id)){
+if(Number.isNaN(id)){
    return res.status(400).json({error: "invalid category"})
 }
 
@@ -49,8 +49,6 @@ const category = categories.find((cat)=> cat.id == id);
 
     res.status(201).json(newCategory);
  };
-
-
 
 export const updateCategory = (req, res)=>{
   const id = Number(req.params.id)
@@ -79,11 +77,11 @@ if(!name){
 
 
  export const deleteCategory = (req, res) => {
-  const id = parseInt(req.params.id);
-  if (isNaN(id)) {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) {
     return res.status(400).json({ error: "Invalid category ID" });
   } 
-  const categoryIndex = categories.findIndex((c) => c.id === id);
+  const categoryIndex = categories.findIndex((cat) => cat.id === id);
 
   if (categoryIndex === -1) {
     return res.status(404).json({ error: "Category not found" });
