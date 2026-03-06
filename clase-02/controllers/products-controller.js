@@ -2,14 +2,18 @@
 
 import { validateStock, validatePrice } from "../utils/validate.js";
 
+import Product from "../models/Product.js";
+
 const products =[
     {id: 1, name: "laptop", price: 1200, stock: 10},
     {id: 2, name: "mouse", price: 20, stock: 100},
     ];
 
 
-export const getProducts = (req,res)=>{
-    res.json(products);
+export const getProducts = async (req,res)=>{
+  const products = await Product.find();
+  console.log(products);
+    res.json();
  };
 
  export const getProductById = (req, res)=>{
@@ -27,12 +31,12 @@ const product = products.find((p)=> p.id == id);
  }
 
 
- export const createProduct = (req, res)=>{
+ export const createProduct = async (req, res)=>{
 
 //Validación del campo stock
 
-  console.log(validateStock(req.body.stock));
-
+  /* console.log(validateStock(req.body.stock));
+ */
     /* if(req.body.stock == undefined || 
       isNaN(req.body.stock) || 
       req.body.stock < 0
@@ -55,21 +59,22 @@ const product = products.find((p)=> p.id == id);
     return res.status(422).json({ error: "Invalid price" });
   } */
 
-    if(!validatePrice(eq.body.price)){
+    if(!validatePrice(req.body.price)){
        return res.status(422).json({ error: "Invalid price" });
     }
 
-  const newProduct = {
-    id: Date.now(),
+  const data = {
+    //id: Date.now(),
     name: req.body.name,
-    price: req.body.price,
-    stock: req.body.stock
+    price: Number(req.body.price),
+    stock: Number(req.body.stock)
   };
+  const product = new Product(data);
+    await product.save();
 
+   // products.push(newProduct)
 
-  products.push(newProduct);
-
-    res.status(201).json(newProduct);
+    res.status(201).json(product);
  }
 
 
@@ -107,3 +112,17 @@ products.splice(productIndex, 1);
 res.status(204).send();
 res.json({message: "product deleted"})
 }
+
+
+export const searchProducts = async (req, res)=>{
+  const {name} = req.query;
+  if(!name){
+    return res.status(422).json({error: "name query is required"})
+  }
+
+  const products = await Product.find(
+   {name: {$regex: name, $options: "i"}}
+  );
+
+  res.json(products)
+};

@@ -6,7 +6,9 @@ import {
   getCategories, 
   getCategoryById,
   updateCategory,
-  deleteCategory } from "../controllers/categories-controllers.js";
+  deleteCategory,
+  searchCategories
+} from "../controllers/categories-controllers.js";
 
 const router = Router();
 
@@ -15,7 +17,7 @@ const router = Router();
 
 
 //=======CATEGORIES========//
-
+router.get("/search",searchCategories);
 router.get("/",getCategories);
 router.get("/:id", getCategoryById);
 router.post("/",createCategory);

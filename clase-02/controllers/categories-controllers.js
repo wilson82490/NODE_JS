@@ -90,3 +90,17 @@ if(!name){
 
   res.status(204).send();
 }
+
+
+export const searchCategories = async (req, res)=>{
+  const {name} = req.query;
+  if(!name){
+    return res.status(422).json({error: " category name is required"})
+  }
+
+  const categories = await Category.find(
+   {name: {$regex: name, $options: "i"}}
+  );
+
+  res.json(categories)
+};
