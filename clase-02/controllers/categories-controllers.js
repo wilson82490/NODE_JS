@@ -15,8 +15,10 @@ const categories = [
   },
 ];
 
-export const getCategories = (req,res)=>{
-    res.json(categories);
+export const getCategories = async (req,res)=>{
+  const categories = await Category.find();
+  console.log(categories);
+    res.json();
  };
 
 export const getCategoryById = (req, res)=>{
