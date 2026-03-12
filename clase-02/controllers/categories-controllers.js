@@ -42,7 +42,6 @@ export const getCategoryById = async (req, res)=>{
     res.status(201).json(category);
  };
 
-
 /* export const updateCategory = (req, res)=>{
   const id = Number(req.params.id)
   if(isNaN(id)){
@@ -69,7 +68,8 @@ if(!name){
  }
  */
 
-export const updateCategory = async (req, res)=>{
+
+ export const updateCategory = async (req, res)=>{
  try {
    const {id} = req.params;
 

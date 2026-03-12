@@ -15,4 +15,3 @@ export const validatePrice = (price)=> {
 
 
 
-/* console.log(validatePrice("j10"));  */
