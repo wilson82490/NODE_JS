@@ -20,26 +20,40 @@ export const getCategoryById = async (req, res)=>{
 
   res.json(category);
   } catch (error) {
-    res.status(404).json({error: "Invalid category id"})
+    if(error.name === "CastError"){
+    return res.status(404).json({error: "invalid category id"})
+  }
+  res.status(500).json({ error: "internal server error" });
+ 
+ 
   }
  };
 
  export const createCategory = async (req, res)=>{
- if(!req.body.name ){
-    return res.status(422).json({error: "name is required"})
-  }
 
-  const data = {
-    
-    name: req.body.name,
-    description: req.body.description,
-  };
-    
-  const category = new Category(data);
+  try {
+    const category = new Category(req.body);
 
   await category.save();
 
     res.status(201).json(category);
+  } catch (error) {
+    if(error.name === "ValidationError"){
+      return res.status(422).json({error: error.errors})
+    }
+    res.status(500).json({error: "internal server error"});
+  }
+/*  if(!req.body.name ){
+    return res.status(422).json({error: "name is required"})
+  } */
+
+ /*  const data = {
+    
+    name: req.body.name,
+    description: req.body.description,
+  }; */
+    
+  
  };
 
 /* export const updateCategory = (req, res)=>{
@@ -73,12 +87,14 @@ if(!name){
  try {
    const {id} = req.params;
 
-   if(!req.body.name){
+ /*   if(!req.body.name){
     return res.status(422).json({error: "name is required"})
-  }
+  } */
 
   const categoryUpdate = await Category.findByIdAndUpdate(id, req.body, {
-    returnDocument: "after"
+
+    returnDocument: "after",
+    runValidators: true,
   });
 
   if (!categoryUpdate) {
@@ -86,7 +102,21 @@ if(!name){
   }
   res.json(categoryUpdate);
  } catch (error) {
-  res.status(404).json({ error: "invalid category id" });
+    
+  if(error.name === "ValidationError"){
+     const errors = {};
+    for (const property in error.errors) {
+  
+  errors[property] = error.errors[property].message;
+}
+    return res.status(422).json({error: errors});
+  }
+
+  if(error.name === "CastError"){
+    return res.status(404).json({error: "invalid category id"})
+  }
+  res.status(500).json({ error: "internal server error" });
+ 
  }
 };
 
