@@ -5,15 +5,21 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch --env-file=.env index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch index.js",
+    "test": "mocha test/**/*.test.js"
   },
   "keywords": [],
   "author": "Vincenzo Acconcia",
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "mongoose": "^9.2.4"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5",
+    "supertest": "^7.2.2"
   }
 }
