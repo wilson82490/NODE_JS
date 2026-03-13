@@ -13,7 +13,7 @@ export const getCategories = async (req,res)=>{
 export const getCategoryById = async (req, res)=>{
   try {
      const {id} = req.params;
-     const category = await Category.findById(id);
+     const category = await Category.findById(id).populate("type", "name");
  if(!category){
     return res.status(404).json({error: "category not found"})
   }

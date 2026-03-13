@@ -3,19 +3,30 @@
 import { validateStock, validatePrice } from "../utils/validate.js";
 
 import Product from "../models/Product.js";
-
+import Category from "../models/Category.js";
 
 export const getProducts = async (req,res)=>{
-  const products = await Product.find();
+  try {
+    const products = await Product.find().populate("category", "name");
  
     res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "internal server error" });
+  }
+  
  };
 
  export const getProductById = async (req, res)=>{
   try {
      const {id} = req.params;
 
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).populate({
+    path: "category",
+    populate: {
+      path: "type",
+      select: "name"
+    }
+  });
 
  if(!product){
     return res.status(404).json({error: "product not found"})
@@ -44,6 +55,13 @@ export const getProducts = async (req,res)=>{
 
 export const createProduct = async (req, res)=>{
 try {
+     const {category : categoryId} = req.body;
+
+  const category = await Category.findById(categoryId);
+
+  if (!category) {
+    return res.status(404).json({ error: "category not found" });
+  }
   /* //Validación del campo stock
   if(!validateStock(req.body.stock)){
     return res.status(422).json({error: "invalid stock"})
@@ -100,6 +118,9 @@ export const updateProduct = async (req, res)=>{
  try {
    const {id} = req.params;
 
+ //const category = await Category.findById(req.body.category);
+
+
  /*   //Validación del campo stock
 
   if(!validateStock(req.body.stock)){
@@ -109,7 +130,6 @@ export const updateProduct = async (req, res)=>{
   if(!validatePrice(req.body.price)){
     return res.status(422).json({ error: "Invalid price" });
     } */
-
 
     const productUpdate = await Product.findByIdAndUpdate(id, req.body, {
     returnDocument: "after",
@@ -176,3 +196,22 @@ export const searchProducts = async (req, res)=>{
 
   res.json(products)
 };
+
+
+export const getProductsByCategoryID = async (req, res)=>{
+
+  try {
+    const {categoryId} = req.params;
+
+  const products = await Product.find({category: categoryId}).populate("category");
+  res.json(products);
+  } catch (error) {
+    
+     if(error.name === "CastError"){
+    return res.status(404).json({ error: "invalid category id" });
+  }
+    
+    res.status(500).json({ error: "internal server error" });
+  }
+
+}

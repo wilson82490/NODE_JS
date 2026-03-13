@@ -20,8 +20,17 @@ const productSchema = new mongoose.Schema({
         validate: {
             validator: Number.isInteger,
             message: "Stock must be integer value"
-        }
-    }
+        },
+    },
+
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        required: true
+    },
+},
+{
+    timestamps: true
 })
     
 
