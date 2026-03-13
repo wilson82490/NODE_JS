@@ -8,6 +8,6 @@ describe("Products endpoint", function() {
     it("should return all products with a 200 status and an array", async function() {
         const response = await request(app).get("/products");
         expect(response.status).to.equal(200);
-        console.log(response.status, response.body);
+        expect(response.body).to.be.an("array");
     });
 })
