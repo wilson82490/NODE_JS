@@ -13,11 +13,11 @@ const categorySchema = new mongoose.Schema({
         trim: true,
         maxLength: [500, "Description must be at most 500 characters"]
     },
-    type: {
+  /*   type: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "CategoryType",
         required: true,
-    }
+    } */
 },
 {
     timestamps: true
