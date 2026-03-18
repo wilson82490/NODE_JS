@@ -27,7 +27,7 @@ export const getProducts = async (req,res)=>{
   }
     res.json(product);
   } catch (error) {
-    res.status(404).json({error: "invalid product id"})
+    res.status(400).json({error: "invalid product id"})
   }
 
  /*  const {id} = req.params;
@@ -202,7 +202,7 @@ export const getProductsByCategoryID = async (req, res)=>{
   } catch (error) {
     
      if(error.name === "CastError"){
-    return res.status(404).json({ error: "invalid category id" });
+    return res.status(400).json({ error: "invalid category id" });
   }
     
     res.status(500).json({ error: "internal server error" });

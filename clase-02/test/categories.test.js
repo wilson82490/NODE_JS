@@ -54,19 +54,32 @@ describe("Categories endpoint", function() {
   
  });
 
-    it ("should show one category by ID", async function() {
+it ("should show one category by ID", async function() {
       const category = await Category.findOne({ name: "Electronics" });
 
-    const response = await request(app).get(`/categories/${response.body._id}`);
+    const response = await request(app).get(`/categories/${category.id}`);
 
     expect(response.status).to.equal(200);
     expect(response.body).to.have.property("name");
     expect(response.body.name).to.equal("Electronics");
  });
 
- it( "should return 422 if name category is missing", async function() {
+it( "should return 422 if name category is missing", async function() {
    const res = await request(app).post("/categories").send({});
    expect(res.status).to.equal(422);
+});
+
+
+it( "should return error 400 category if id is invalid", async function() {
+    const res = await request(app).get("/categories/123");
+    expect(res.status).to.equal(400);
+});
+
+
+it("should return error 404 if category not found", async function() {
+  const nonExistentId = "64a1f0c2e1b2c3d4e5f67890"; 
+  const response = await request(app).get(`/categories/${nonExistentId}`);
+  expect(response.status).to.equal(404);
 });
 
 it("should update category", async function (){

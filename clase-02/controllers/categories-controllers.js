@@ -21,7 +21,7 @@ export const getCategoryById = async (req, res)=>{
   res.json(category);
   } catch (error) {
     if(error.name === "CastError"){
-    return res.status(404).json({error: "invalid category id"})
+    return res.status(400).json({error: "invalid category id"})
   }
   res.status(500).json({ error: "internal server error" });
  
