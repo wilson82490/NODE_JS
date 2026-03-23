@@ -7,7 +7,7 @@ import Category from "../models/Category.js";
 
 export const getProducts = async (req,res)=>{
   try {
-    const products = await Product.find().populate("category", "name");
+    const products = await Product.find().populate("category", "name").populate("owner", "email");
  
     res.json(products);
   } catch (error) {
@@ -49,13 +49,32 @@ export const getProducts = async (req,res)=>{
 
 export const createProduct = async (req, res)=>{
 try {
-     const {category : categoryId} = req.body;
+
+   
+    const {category : categoryId} = req.body
 
   const category = await Category.findById(categoryId);
 
   if (!category) {
     return res.status(404).json({ error: "category not found" });
   }
+
+  console.log(req.user, req.body);
+
+ /*  const data = {
+    name: req.body.name,
+    price: req.body.price,
+    stock: req.body.stock,
+    category: categoryId,
+    owner: req.user.id
+  }; */
+  const data = {...req.body, owner: req.user.id}
+
+
+ /* console.log(data);
+  return res.json({message: "product created successfully"}); */
+
+
   /* //Validación del campo stock
   if(!validateStock(req.body.stock)){
     return res.status(422).json({error: "invalid stock"})
@@ -69,7 +88,7 @@ try {
     price: Number(req.body.price),
     stock: Number(req.body.stock)
   }; */
-  const product = new Product(req.body);
+  const product = new Product(data);
     await product.save();
 
     res.status(201).json(product);

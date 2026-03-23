@@ -13,6 +13,7 @@ import {
     searchProducts,
     getProductsByCategoryID
                  } from "../controllers/products-controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 
 
@@ -20,7 +21,8 @@ import {
 router.get("/search",searchProducts);
 router.get("/", getProducts);
 router.get("/:id", getProductById );
-router.post("/", createProduct);
+//router.post("/",authMiddleware, createProduct);
+router.post("/",authMiddleware, createProduct);
 router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
 

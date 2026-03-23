@@ -8,6 +8,7 @@ import categoriesRouter from "./routes/categories-router.js";
 import authRouter from "./routes/auth-router.js";
 import mongoose from "mongoose";
 import categoryTypeRouter from "./routes/categoryType.router.js";
+//import { authMiddleware } from "./middlewares/auth.middleware.js";
 
 const app = express();
 
@@ -20,8 +21,9 @@ mongoose
 
 app.use(express.json());
 
+//app.use("/products", authMiddleware, productRouter)
 app.use("/products", productRouter)
-app.use("/categories", categoriesRouter)
+app.use("/categories",  categoriesRouter)
 app.use(pingRouter);
 app.use(categoryTypeRouter);
 app.use("/auth", authRouter);

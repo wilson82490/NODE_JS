@@ -14,6 +14,20 @@ const createToken = (user) => {
     return token;
 };
 
+export const profile = async (req, res) => {
+   try {
+    const user = await User.findById(req.user.id).select("-password");
+
+
+    res.json({
+        message: "This is the profile route",
+        user: user,
+    });
+   } catch (error) {
+    res.status(500).json({message: "Internal server error"});
+   }
+};
+
 export const login = async (req, res) => {
 
     try {

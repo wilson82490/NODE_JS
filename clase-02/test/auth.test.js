@@ -128,4 +128,27 @@ describe("Auth User", function () {
     expect(res.status).to.equal(200);
     expect(res.body).to.have.property("token");
   });
+
+  it("should send 401 if no token is provided", async function () {
+    const res = await request(app).get("/auth/profile");
+
+    expect(res.status).to.equal(401);
+  });
+
+  it ("should return user profile with valid token", async function () {
+    const login = await request(app).post("/auth/login").send({
+      email: "test@example.com",
+      password: "123456",
+    });
+
+    const token = login.body.token;
+
+    const res = await request(app)
+      .get("/auth/profile")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property("user");
+    expect(res.body.user).to.have.property("email", "test@example.com");
+  });
 });
